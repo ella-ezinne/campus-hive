@@ -15,19 +15,19 @@ const Header = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex space-x-4">
               <a
-                href="#"
+                href="/"
                 className="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Home
               </a>
               <a
-                href="#"
+                href="/about"
                 className="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium"
               >
                 About
               </a>
               <a
-                href="#"
+                href="/businesses"
                 className="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Businesses
@@ -39,7 +39,7 @@ const Header = () => {
                 News
               </a>
               <a
-                href="#"
+                href="/register"
                 className="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Register Business
