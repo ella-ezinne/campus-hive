@@ -5,13 +5,15 @@ const businessesData = [
     id: 1,
     name: "Campus Delight Restaurant",
     category: "Restaurants & Cafeterias",
+    location: "SUB",
     description: "Delicious meals at affordable prices.",
     logo: "https://via.placeholder.com/100",
   },
   {
     id: 2,
     name: "TechSavvy Cyber Cafe",
-    category: "Cyber Cafe",
+    category: "Cyber Cafes & Printing Centers",
+    location: "Container",
     description: "Fast internet and printing services.",
     logo: "https://via.placeholder.com/100",
   },
@@ -19,6 +21,7 @@ const businessesData = [
     id: 3,
     name: "FreshMart Grocery",
     category: "Grocery Shops",
+    location: "FASA Market",
     description: "Fresh groceries and household items.",
     logo: "https://via.placeholder.com/100",
   },
@@ -26,6 +29,7 @@ const businessesData = [
     id: 4,
     name: "Elite Photography",
     category: "Photography Studios",
+    location: "Library",
     description: "Quality photoshoots for all occasions.",
     logo: "https://via.placeholder.com/100",
   },
@@ -33,6 +37,7 @@ const businessesData = [
     id: 5,
     name: "Sparkling Laundry",
     category: "Laundry Services",
+    location: "Marlima & Belima",
     description: "Professional laundry and ironing services.",
     logo: "https://via.placeholder.com/100",
   },
@@ -40,6 +45,7 @@ const businessesData = [
     id: 6,
     name: "GreenBank UNN",
     category: "Banks & ATMs",
+    location: "Maingate",
     description: "Secure and fast banking services.",
     logo: "https://via.placeholder.com/100",
   },
@@ -47,6 +53,7 @@ const businessesData = [
     id: 7,
     name: "StyleHub Salon",
     category: "Salons & Barbershops",
+    location: "Okeke & Isakaita",
     description: "Trendy haircuts and grooming services.",
     logo: "https://via.placeholder.com/100",
   },
@@ -54,6 +61,7 @@ const businessesData = [
     id: 8,
     name: "UniMall Bookstore",
     category: "Bookshop & Stationery",
+    location: "Nkrumah & Boys Hostel",
     description: "Academic and leisure books for everyone.",
     logo: "https://via.placeholder.com/100",
   },
@@ -61,6 +69,7 @@ const businessesData = [
     id: 9,
     name: "Campus Fitness Gym",
     category: "Fitness & Gym",
+    location: "Stadium",
     description: "Fitness classes and modern equipment.",
     logo: "https://via.placeholder.com/100",
   },
@@ -68,13 +77,14 @@ const businessesData = [
     id: 10,
     name: "UNN Tech Repairs",
     category: "Mobile Repair & Accessories",
+    location: "Okpara & Balewa",
     description: "Quick and affordable device repairs.",
     logo: "https://via.placeholder.com/100",
   },
 ];
 
 const categories = [
-  "All",
+  "All categories",
   "Restaurants & Cafeterias",
   "Grocery Shops",
   "Banks & ATMs",
@@ -87,24 +97,42 @@ const categories = [
   "Mobile Repair & Accessories",
 ];
 
+const locations = [
+  "All locations",
+  "SUB",
+  "Marlima & Belima",
+  "Container",
+  "FASA Market",
+  "Stadium",
+  "Maingate",
+  "Library",
+  "Okpara & Balewa",
+  "Akintola & Akpabio",
+  "Okeke & Isakaita",
+  "Nkrumah & Boys Hostel",
+];
+
 const BusinessesPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedLocation, setSelectedLocation] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const businessesPerPage = 4;
 
-  // Filter businesses based on search term and selected category
+  // Filter businesses based on search term, category, and location
   const filteredBusinesses = businessesData.filter((business) => {
     const matchesSearch = business.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
     const matchesCategory =
       selectedCategory === "All" || business.category === selectedCategory;
+    const matchesLocation =
+      selectedLocation === "All" || business.location === selectedLocation;
 
-    return matchesSearch && matchesCategory;
+    return matchesSearch && matchesCategory && matchesLocation;
   });
 
-  // Calculate pagination values
+  // Pagination values
   const totalBusinesses = filteredBusinesses.length;
   const totalPages = Math.ceil(totalBusinesses / businessesPerPage);
   const startIndex = (currentPage - 1) * businessesPerPage;
@@ -131,10 +159,10 @@ const BusinessesPage = () => {
           placeholder="Search for a business..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full md:w-1/2 px-4 py-2 mb-4 md:mb-0 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+          className="w-full md:w-1/3 px-4 py-2 mb-4 md:mb-0 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
         />
 
-        {/* Category Filters */}
+        {/* Category Filter */}
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
@@ -143,6 +171,19 @@ const BusinessesPage = () => {
           {categories.map((category) => (
             <option key={category} value={category}>
               {category}
+            </option>
+          ))}
+        </select>
+
+        {/* Location Filter */}
+        <select
+          value={selectedLocation}
+          onChange={(e) => setSelectedLocation(e.target.value)}
+          className="w-full md:w-1/4 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+        >
+          {locations.map((location) => (
+            <option key={location} value={location}>
+              {location}
             </option>
           ))}
         </select>
@@ -167,6 +208,8 @@ const BusinessesPage = () => {
             <p className="text-green-600 font-medium mb-2">
               {business.category}
             </p>
+            {/* Location */}
+            <p className="text-gray-500 mb-2">{business.location}</p>
             {/* Description */}
             <p className="text-gray-600">{business.description}</p>
           </div>
