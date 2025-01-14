@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const businessesData = [
@@ -192,7 +193,8 @@ const BusinessesPage = () => {
       {/* Businesses Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {paginatedBusinesses.map((business) => (
-          <div
+          <Link
+            to={`/business/${business.id}`}
             key={business.id}
             className="border rounded-lg shadow-md p-4 flex flex-col items-center text-center"
           >
@@ -212,7 +214,7 @@ const BusinessesPage = () => {
             <p className="text-gray-500 mb-2">{business.location}</p>
             {/* Description */}
             <p className="text-gray-600">{business.description}</p>
-          </div>
+          </Link>
         ))}
       </div>
 
