@@ -1,88 +1,7 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
-
-const businessesData = [
-  {
-    id: 1,
-    name: "Campus Delight Restaurant",
-    category: "Restaurants & Cafeterias",
-    location: "SUB",
-    description: "Delicious meals at affordable prices.",
-    logo: "https://via.placeholder.com/100",
-  },
-  {
-    id: 2,
-    name: "TechSavvy Cyber Cafe",
-    category: "Cyber Cafes & Printing Centers",
-    location: "Container",
-    description: "Fast internet and printing services.",
-    logo: "https://via.placeholder.com/100",
-  },
-  {
-    id: 3,
-    name: "FreshMart Grocery",
-    category: "Grocery Shops",
-    location: "FASA Market",
-    description: "Fresh groceries and household items.",
-    logo: "https://via.placeholder.com/100",
-  },
-  {
-    id: 4,
-    name: "Elite Photography",
-    category: "Photography Studios",
-    location: "Library",
-    description: "Quality photoshoots for all occasions.",
-    logo: "https://via.placeholder.com/100",
-  },
-  {
-    id: 5,
-    name: "Sparkling Laundry",
-    category: "Laundry Services",
-    location: "Marlima & Belima",
-    description: "Professional laundry and ironing services.",
-    logo: "https://via.placeholder.com/100",
-  },
-  {
-    id: 6,
-    name: "GreenBank UNN",
-    category: "Banks & ATMs",
-    location: "Maingate",
-    description: "Secure and fast banking services.",
-    logo: "https://via.placeholder.com/100",
-  },
-  {
-    id: 7,
-    name: "StyleHub Salon",
-    category: "Salons & Barbershops",
-    location: "Okeke & Isakaita",
-    description: "Trendy haircuts and grooming services.",
-    logo: "https://via.placeholder.com/100",
-  },
-  {
-    id: 8,
-    name: "UniMall Bookstore",
-    category: "Bookshop & Stationery",
-    location: "Nkrumah & Boys Hostel",
-    description: "Academic and leisure books for everyone.",
-    logo: "https://via.placeholder.com/100",
-  },
-  {
-    id: 9,
-    name: "Campus Fitness Gym",
-    category: "Fitness & Gym",
-    location: "Stadium",
-    description: "Fitness classes and modern equipment.",
-    logo: "https://via.placeholder.com/100",
-  },
-  {
-    id: 10,
-    name: "UNN Tech Repairs",
-    category: "Mobile Repair & Accessories",
-    location: "Okpara & Balewa",
-    description: "Quick and affordable device repairs.",
-    logo: "https://via.placeholder.com/100",
-  },
-];
+import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const categories = [
   "All categories",
@@ -114,11 +33,36 @@ const locations = [
 ];
 
 const BusinessesPage = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialCategory = queryParams.get("category") || "All categories";
+  const initialLocation = queryParams.get("location") || "All locations";
+
+  const [businessesData, setBusinessesData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedLocation, setSelectedLocation] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [selectedLocation, setSelectedLocation] = useState(initialLocation);
   const [currentPage, setCurrentPage] = useState(1);
   const businessesPerPage = 4;
+
+  // Fetch data from Firestore
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "businesses"));
+        const businesses = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setBusinessesData(businesses);
+      } catch (error) {
+        console.error("Error fetching businesses:", error.message);
+      }
+    };
+
+    fetchBusinesses();
+  }, []);
 
   // Filter businesses based on search term, category, and location
   const filteredBusinesses = businessesData.filter((business) => {
@@ -126,9 +70,11 @@ const BusinessesPage = () => {
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
     const matchesCategory =
-      selectedCategory === "All" || business.category === selectedCategory;
+      selectedCategory === "All categories" ||
+      business.category === selectedCategory;
     const matchesLocation =
-      selectedLocation === "All" || business.location === selectedLocation;
+      selectedLocation === "All locations" ||
+      business.location === selectedLocation;
 
     return matchesSearch && matchesCategory && matchesLocation;
   });
@@ -144,6 +90,12 @@ const BusinessesPage = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  // Update filters when query parameters change
+  useEffect(() => {
+    setSelectedCategory(initialCategory);
+    setSelectedLocation(initialLocation);
+  }, [initialCategory, initialLocation]);
 
   return (
     <div className="container mx-auto px-4 py-8">

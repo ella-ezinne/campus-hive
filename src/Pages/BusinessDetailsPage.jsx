@@ -22,6 +22,29 @@ const businessesData = [
       { user: "Jane Smith", comment: "Affordable and tasty meals!" },
     ],
   },
+
+  {
+    id: 2,
+    name: "TechSavvy Cyber Cafe",
+    images: [
+      "https://via.placeholder.com/600x400",
+      "https://via.placeholder.com/600x400",
+    ],
+    description: "Fast internet and printing services.",
+    contact: {
+      phone: "+234 801 234 5678",
+      email: "contact@techsavvy.com",
+      website: "https://techsavvy.com",
+    },
+    location: "Container, University of Nigeria, Nsukka",
+    reviews: [
+      { user: "John Doe", comment: "Fast internet and affordable pricing!" },
+      {
+        user: "Jane Smith",
+        comment: "I did my entire printing for my clearance here!",
+      },
+    ],
+  },
   // Add more businesses as needed
 ];
 

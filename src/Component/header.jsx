@@ -20,26 +20,26 @@ const Header = () => {
               >
                 Home
               </a>
-              <a
+              {/* <a
                 href="/about"
                 className="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium"
               >
                 About
-              </a>
+              </a> */}
               <a
                 href="/businesses"
                 className="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Businesses
               </a>
-              <a
+              {/* <a
                 href="#"
                 className="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium"
               >
                 News
-              </a>
+              </a> */}
               <a
-                href="/register"
+                href="/signup"
                 className="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Register Business

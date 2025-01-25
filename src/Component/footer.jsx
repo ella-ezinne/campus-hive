@@ -8,22 +8,6 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           {/* Logo */}
           <div className="text-2xl font-bold mb-4 md:mb-0">FindUNN</div>
-
-          {/* Navigation Links */}
-          <div className="flex space-x-4">
-            <a href="/" className="hover:underline">
-              Home
-            </a>
-            <a href="/about" className="hover:underline">
-              About
-            </a>
-            <a href="/businesses" className="hover:underline">
-              Businesses
-            </a>
-            <a href="/register" className="hover:underline">
-              Register Business
-            </a>
-          </div>
         </div>
 
         {/* Middle Section */}

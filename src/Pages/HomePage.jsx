@@ -1,6 +1,7 @@
 // import Header from "../Component/header";
 import HeroSection from "../Component/hero";
 import "../App.css";
+import { Link } from "react-router-dom";
 
 function HomePage() {
   return (
@@ -25,9 +26,14 @@ function HomePage() {
                   {business.name}
                 </h3>
                 <p className="text-gray-600 mb-4">{business.description}</p>
-                <button className="text-green-600 hover:underline">
+                <Link
+                  to={`/businesses?category=${encodeURIComponent(
+                    business.name
+                  )}`}
+                  className="text-green-600 hover:underline"
+                >
                   View Details
-                </button>
+                </Link>
               </div>
             ))}
           </div>
